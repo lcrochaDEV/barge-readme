@@ -1,0 +1,23 @@
+name: Update badges
+
+on:
+  schedule:
+    - cron: "0 2 * * *" # Todo dia às 2h da manhã
+  workflow_dispatch:
+
+jobs:
+  update-readme:
+    name: Update Readme with badges
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Install Dependencies
+        run: |
+          chmod +x setup.sh
+          sudo ./setup.sh # No GitHub Actions precisa de sudo para pacotes do sistema
+
+      - name: Run Scraper
+        run: python seu_script.py
