@@ -21,7 +21,11 @@ class ControllerGithub:
             )
             print("✅ README.md atualizado via API com sucesso!")
         except Exception as e:
-            # Imprime o erro completo para sabermos se é 403 (Permissão) ou 404 (Arquivo)
-            print(f"❌ Erro ao atualizar via API: {str(e)}")
+            # Captura o status HTTP (Ex: 403, 404)
+            status = getattr(e, 'status', 'Desconhecido')
+            print(f"❌ Erro ao atualizar via API: Status {status}")
+            
             if hasattr(e, 'data'):
-                print(f"🔍 Detalhes da API: {e.data}")
+                print(f"🔍 Mensagem da API: {e.data.get('message', 'Sem mensagem')}")
+            else:
+                print(f"🔍 Erro bruto: {str(e)}")
