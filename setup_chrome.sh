@@ -13,10 +13,12 @@ fi
 
 # 1. Atualiza e instala dependências básicas
 $SUDO apt-get update && $SUDO apt-get install -y \
-    wget \
-    gnupg \
-    unzip \
-    curl \
+$SUDO apt-get install -y \
+    libnss3 \
+    libxss1 \
+    libasound2t64 || $SUDO apt-get install -y libasound2 \
+    fonts-liberation \
+    xdg-utils \
     --no-install-recommends
 
 # 2. Configura o repositório e instala o Google Chrome (apenas se não existir)
