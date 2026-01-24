@@ -40,15 +40,6 @@ else
     echo "✅ Google Chrome já está instalado."
 fi
 
-# 3. Instala bibliotecas vitais para o modo Headless
-$SUDO apt-get install -y \
-    libnss3 \
-    libxss1 \
-    libasound2 \
-    fonts-liberation \
-    xdg-utils \
-    --no-install-recommends
-
 # 4. Limpeza para economizar espaço no runner
 $SUDO rm -rf /var/lib/apt/lists/*
 
