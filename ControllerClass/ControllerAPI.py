@@ -4,9 +4,14 @@ from selenium.webdriver.chrome.options import Options
 import time as time
 import re
 
+from settings import LIST_REGEX # Import local para usar o padrão definido
+
 class ControllerAPI:
-	def __init__(self, username=None, number_badges=None, f=None):
+	def __init__(self, username=None, start_marker="", end_marker="", number_badges=16):
 		self.USER = username
+		self.START_MARKER = start_marker
+		self.END_MARKER = end_marker
+		self.number_badges = number_badges
 		
 	def varrerDadosAlura(self):
 		try:
@@ -50,29 +55,36 @@ class ControllerAPI:
 
 				taghtml.append(f'<a href="{html_da_href}"><img src="{html_da_src}" alt="{html_da_title}" width="60px" margin="5px"/></a>')
 
-			self.atualizar_readme("\n".join(taghtml))
-			print("README atualizado com sucesso!")
-		
+			# Aplica o limite de badges definido no seu main.py (self.number_badges)
+			if hasattr(self, 'number_badges') and self.number_badges > 0:
+				taghtml = taghtml[:self.number_badges]
+
+			if taghtml:
+				# Aplica o limite vindo do construtor
+				badges_limitadas = taghtml[:self.number_badges] 
+				
+				self.atualizar_readme("\n".join(badges_limitadas))
+				print(f"Sucesso! {len(badges_limitadas)} badges atualizadas.")
+
 		except Exception as e:
 			print(f"Erro ao varrer dados: {e}")
 		finally:
-			driver.quit
+			driver.quit()
 
 	def atualizar_readme(self, badges_html):
-		# Marcadores que devem existir no seu README.md
-		START_COMMENT = ""
-		END_COMMENT = ""
-		
+			
 		with open("README.md", "r", encoding="utf-8") as readFile:
 			readme = readFile.read()
 
+		new_badges_section = f"{self.START_MARKER}\n{badges_html}\n{self.END_MARKER}"
+
 		# Regex para substituir o conteúdo entre os marcadores
-		pattern = f"{START_COMMENT}[\\s\\S]+{END_COMMENT}"
-		new_badges_section = f"{START_COMMENT}\n{badges_html}\n{END_COMMENT}"
-		
-		if re.search(pattern, readme, re.DOTALL):
-			readme_atualizado = re.sub(pattern, new_badges_section, readme, flags=re.DOTALL)
+		pattern = f"{self.START_MARKER}[\\s\\S]*?{self.END_MARKER}"
+					
+		if re.search(LIST_REGEX, readme):
+			readme_atualizado = re.sub(LIST_REGEX, new_badges_section, readme)
 			with open("README.md", "w", encoding="utf-8") as writeFile:
 				writeFile.write(readme_atualizado)
+			print("README atualizado!")
 		else:
 			print("Erro: Marcadores não encontrados no README.md")

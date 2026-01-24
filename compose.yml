@@ -1,0 +1,10 @@
+version: '3.8'
+
+services:
+  alura-bot:
+    build: .
+    volumes:
+      - .:/app
+    environment:
+      - ALURA_USER=seu_usuario_aqui
+      - START_MARKER=- END_MARKER=- INPUT_NUMBER_LAST_BADGES=16

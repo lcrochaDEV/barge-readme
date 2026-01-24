@@ -1,23 +1,48 @@
-name: Update badges
+name: Update Alura Badges
 
 on:
   schedule:
-    - cron: "0 2 * * *" # Todo dia às 2h da manhã
+    - cron: '0 0 * * *'
+  push:
+    branches:
+      - main
   workflow_dispatch:
 
 jobs:
   update-readme:
-    name: Update Readme with badges
     runs-on: ubuntu-latest
 
+    permissions:
+      contents: write
+
     steps:
-      - name: Checkout Repository
+      - name: 1. Checkout do código
         uses: actions/checkout@v4
 
-      - name: Install Dependencies
+      - name: 2. Configurar Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: 3. Setup Environment
         run: |
           chmod +x setup.sh
-          sudo ./setup.sh # No GitHub Actions precisa de sudo para pacotes do sistema
+          sudo ./setup.sh
 
-      - name: Run Scraper
-        run: python seu_script.py
+      - name: 4. Run Script
+        env:
+          ALURA_USER: ${{ secrets.ALURA_USER }}
+          # Passando os marcadores via ENV conforme solicitado
+          START_MARKER: "<!--START_SECTION_ALURA:badges-->"
+          END_MARKER: "<!--END_SECTION_ALURA:badges-->"
+          INPUT_NUMBER_LAST_BADGES: "16"
+        run: python main.py
+
+      - name: 5. Commit and Push changes
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add README.md
+          # O comando '|| exit 0' evita que o workflow falhe se não houver novos cursos para atualizar
+          git commit -m "docs: update alura badges [skip ci]" || exit 0
+          git push
