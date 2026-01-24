@@ -63,7 +63,7 @@ class ControllerAPI:
 				# Aplica o limite vindo do construtor
 				badges_limitadas = taghtml[:self.number_badges] 
 				
-				self.atualizar_readme("\n".join(badges_limitadas))
+				return self.atualizar_readme("\n".join(badges_limitadas))
 				print(f"Sucesso! {len(badges_limitadas)} badges atualizadas.")
 
 		except Exception as e:
