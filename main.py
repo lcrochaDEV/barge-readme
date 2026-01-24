@@ -26,15 +26,19 @@ if __name__ == "__main__":
         sys.exit(1)
 
     novo_readme_completo = bot.varrerDadosAlura()
+    if novo_readme_completo:
+        # Criamos o bloco completo: TAG_INICIO + CONTEÚDO + TAG_FIM
+        # Isso garante que as tags permaneçam no README do amigo
+        bloco_completo = f"{start_m}\n{novo_readme_completo}\n{end_m}"
 
-    if re.search(LIST_REGEX, readme_atual):
-        # Substitui apenas o que está entre as tags no readme_atual
-        novo_readme_completo = re.sub(LIST_REGEX, lambda _: novo_readme_completo, readme_atual)
-        print("✅ Badges injetadas com sucesso entre os marcadores!")
-    else:
-        print(f"⚠️ Erro: Marcadores não encontrados no README do usuário.")
-        print(f"Procurei por:\n{start_m}\n{end_m}")
-        sys.exit(1)
+        if re.search(LIST_REGEX, readme_atual):
+            # Substitui apenas o que está entre as tags no readme_atual
+            novo_readme_completo = re.sub(LIST_REGEX, lambda _: novo_readme_completo, readme_atual)
+            print("✅ Badges injetadas com sucesso entre os marcadores!")
+        else:
+            print(f"⚠️ Erro: Marcadores não encontrados no README do usuário.")
+            print(f"Procurei por:\n{start_m}\n{end_m}")
+            sys.exit(1)
 
     # Salva no GitHub
     github_bot.atualizar_readme(novo_readme_completo)
