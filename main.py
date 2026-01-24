@@ -29,7 +29,6 @@ if __name__ == "__main__":
     
 
     if re.search(LIST_REGEX, readme_atual):
-        print(LIST_REGEX)
         print(novo_readme_completo)
         # Substitui apenas o que está entre as tags no readme_atual
         novo_readme_completo = re.sub(LIST_REGEX, lambda _: novo_readme_completo, readme_atual)
