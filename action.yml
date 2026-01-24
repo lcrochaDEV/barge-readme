@@ -10,6 +10,12 @@ inputs:
     description: 'Limite de badges'
     required: false
     default: '16'
+  start_marker:
+    description: 'Tag de início no README'
+    default: ''
+  end_marker:
+    description: 'Tag de fim no README'
+    default: ''
 
 runs:
   using: 'composite'
@@ -27,8 +33,8 @@ runs:
         GITHUB_TOKEN: ${{ github.token }}
         GITHUB_REPOSITORY: ${{ github.repository }}
         ACTION_PATH: ${{ github.action_path }}
-        START_MARKER: ""
-        END_MARKER: ""
+        START_MARKER: ${{ inputs.start_marker }}
+        END_MARKER: ${{ inputs.end_marker }}
       run: |
         chmod +x "$ACTION_PATH/setup_chrome.sh"
         "$ACTION_PATH/setup_chrome.sh"
