@@ -12,7 +12,7 @@ else
 fi
 
 # 1. Atualiza e instala dependências básicas
-$SUDO apt-get install -y \
+$SUDO apt-get update && $SUDO apt-get install -y \
     libnss3 \
     libxss1 \
     fonts-liberation \
