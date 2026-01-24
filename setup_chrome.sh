@@ -3,6 +3,15 @@ set -e  # Interrompe em caso de erro
 
 echo "🚀 Iniciando configuração do ambiente Selenium..."
 
+# 0. Limpar travas do sistema
+sudo rm -f /var/lib/dpkg/lock-frontend
+sudo rm -f /var/lib/apt/lists/lock
+
+# Define BASE_PATH (Prioriza a Action, senão usa o diretório atual)
+BASE_PATH="${ACTION_PATH:-.}"
+
+# 1. Atualizar repositórios
+sudo apt-get update -y
 
 # Verifica se é root para usar apt-get, caso contrário tenta usar sudo
 if [ "$(id -u)" -ne 0 ]; then
@@ -17,9 +26,9 @@ $SUDO apt-get update && $SUDO apt-get install -y \
     libxss1 \
     fonts-liberation \
     xdg-utils \
-    libasound2t64 \
     --no-install-recommends
 
+$SUDO apt-get install -y libasound2t64 || $SUDO apt-get install -y libasound2 || echo "⚠️ libasound não disponível, tentando prosseguir..."
 
 # 2. Configura o repositório e instala o Google Chrome (apenas se não existir)
 if ! command -v google-chrome &> /dev/null; then
