@@ -2,9 +2,12 @@ import os
 import re
 
 # Pega da ENV ou usa o valor padrão caso a ENV não esteja definida
-START_COMMENT = os.getenv("START_MARKER", "") or ""
-END_COMMENT = os.getenv("END_MARKER", "") or ""
+START_COMMENT = os.getenv("START_MARKER") or "<!--START_SECTION:badges-->"
+END_COMMENT = os.getenv("END_MARKER") or "<!--END_SECTION:badges-->"
 
 URL_ALURA = "https://cursos.alura.com.br"
 
 LIST_REGEX = f"{re.escape(START_COMMENT)}[\\s\\S]*?{re.escape(END_COMMENT)}"
+
+
+

@@ -26,7 +26,8 @@ if __name__ == "__main__":
         sys.exit(1)
 
     novo_readme_completo = bot.varrerDadosAlura()
-    
+
+    bloco_final = f"{START_COMMENT}\n{novo_readme_completo}\n{END_COMMENT}"
 
     if re.search(LIST_REGEX, readme_atual):
         print(novo_readme_completo)
