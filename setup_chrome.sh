@@ -44,6 +44,12 @@ $SUDO rm -rf /var/lib/apt/lists/*
 # Usar --upgrade garante que o Selenium 4+ (que gerencia drivers sozinho) seja instalado
 echo "🐍 Instalando dependências Python..."
 pip install --upgrade pip
-pip install --upgrade selenium
+if [ -f "requirements.txt" ]; then
+    pip install -r requirements.txt
+    echo "✅ requirements.txt instalado."
+else
+    echo "⚠️ requirements.txt não encontrado, instalando apenas o Selenium."
+    pip install --upgrade selenium
+fi
 
 echo "✅ Ambiente configurado com sucesso!"

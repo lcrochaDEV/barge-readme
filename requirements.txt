@@ -1,2 +1,4 @@
-selenium>=4.10.0
+PyGithub
 webdriver-manager
+
+selenium>=4.10.0

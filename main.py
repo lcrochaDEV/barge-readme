@@ -1,5 +1,6 @@
 import os
 from ControllerClass.ControllerAPI import ControllerAPI
+from ControllerClass.ControllerGithub import ControllerGithub
 from settings import START_COMMENT, END_COMMENT
 
 if __name__ == "__main__":
@@ -10,5 +11,10 @@ if __name__ == "__main__":
     end_m = os.getenv("END_MARKER", END_COMMENT)
     limit = os.getenv("INPUT_NUMBER_LAST_BADGES", "16")
     
+    # 1. Busca os dados e gera o conteúdo formatado
     bot = ControllerAPI(username=user, start_marker=start_m, end_marker=end_m, number_badges=int(limit))
-    bot.varrerDadosAlura()
+    novo_readme_completo = bot.varrerDadosAlura()
+
+    # 2. Salva no GitHub
+    github_bot = ControllerGithub()
+    github_bot.atualizar_readme(novo_readme_completo)

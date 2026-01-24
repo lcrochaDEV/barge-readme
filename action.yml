@@ -19,30 +19,22 @@ jobs:
       - name: 1. Checkout do código
         uses: actions/checkout@v4
 
-      - name: 2. Configurar Python
-        uses: actions/setup-python@v4
+      - name: 2. Garantir Python 3.10
+        uses: actions/setup-python@v5
         with:
           python-version: '3.10'
 
-      - name: 3. Setup Environment
-        run: |
-          chmod +x setup.sh
-          sudo ./setup.sh
-
-      - name: 4. Run Script
+      - name: 3. EXECUTAR SEU SHELL SCRIPT (Instala tudo)
         env:
+          # PyGithub
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          # Dados da Alura
           ALURA_USER: ${{ secrets.ALURA_USER }}
           # Passando os marcadores via ENV conforme solicitado
           START_MARKER: "<!--START_SECTION_ALURA:badges-->"
           END_MARKER: "<!--END_SECTION_ALURA:badges-->"
           INPUT_NUMBER_LAST_BADGES: "16"
-        run: python main.py
-
-      - name: 5. Commit and Push changes
         run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add README.md
-          # O comando '|| exit 0' evita que o workflow falhe se não houver novos cursos para atualizar
-          git commit -m "docs: update alura badges [skip ci]" || exit 0
-          git push
+          chmod +x setup_chrome.sh
+          ./setup_chrome.sh 
