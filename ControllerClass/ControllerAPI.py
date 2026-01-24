@@ -64,7 +64,8 @@ class ControllerAPI:
 				badges_limitadas = taghtml[:self.number_badges] 
 				
 				print(f"Sucesso! {len(badges_limitadas)} badges atualizadas.")
-				return self.atualizar_readme("\n".join(badges_limitadas))
+				return "\n".join(badges_limitadas)
+				##return self.atualizar_readme("\n".join(badges_limitadas))
 
 		except Exception as e:
 			print(f"Erro ao varrer dados: {e}")
