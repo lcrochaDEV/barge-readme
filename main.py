@@ -1,7 +1,9 @@
 import os
+import sys
+import re
 from ControllerClass.ControllerAPI import ControllerAPI
 from ControllerClass.ControllerGithub import ControllerGithub
-from settings import START_COMMENT, END_COMMENT
+from settings import START_COMMENT, END_COMMENT, LIST_REGEX
 
 if __name__ == "__main__":
     # Pega o usuário das variáveis de ambiente do GitHub Actions
@@ -14,9 +16,26 @@ if __name__ == "__main__":
     
     # 1. Busca os dados e gera o conteúdo formatado
     bot = ControllerAPI(username=user, start_marker=start_m, end_marker=end_m, number_badges=int(limit))
+    github_bot = ControllerGithub()
+
+    try:
+        readme_obj = github_bot.repo.get_contents("README.md")
+        readme_atual = readme_obj.decoded_content.decode("utf-8")
+    except Exception as e:
+        print(f"❌ Erro ao acessar o README.md: {e}")
+        sys.exit(1)
+
     novo_readme_completo = bot.varrerDadosAlura()
 
-    # 2. Salva no GitHub
-    github_bot = ControllerGithub()
+    if re.search(LIST_REGEX, readme_atual):
+        # Substitui apenas o que está entre as tags no readme_atual
+        novo_readme_completo = re.sub(LIST_REGEX, novo_readme_completo, readme_atual)
+        print("✅ Badges injetadas com sucesso entre os marcadores!")
+    else:
+        print(f"⚠️ Erro: Marcadores não encontrados no README do usuário.")
+        print(f"Procurei por:\n{start_m}\n{end_m}")
+        sys.exit(1)
+
+    # Salva no GitHub
     github_bot.atualizar_readme(novo_readme_completo)
     
