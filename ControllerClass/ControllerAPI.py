@@ -63,8 +63,8 @@ class ControllerAPI:
 				# Aplica o limite vindo do construtor
 				badges_limitadas = taghtml[:self.number_badges] 
 				
-				return self.atualizar_readme("\n".join(badges_limitadas))
 				print(f"Sucesso! {len(badges_limitadas)} badges atualizadas.")
+				return self.atualizar_readme("\n".join(badges_limitadas))
 
 		except Exception as e:
 			print(f"Erro ao varrer dados: {e}")
@@ -86,5 +86,7 @@ class ControllerAPI:
 			with open("README.md", "w", encoding="utf-8") as writeFile:
 				writeFile.write(readme_atualizado)
 			print("README atualizado!")
+			return readme_atualizado
 		else:
 			print("Erro: Marcadores não encontrados no README.md")
+			return pattern
