@@ -30,5 +30,5 @@ runs:
         START_MARKER: ""
         END_MARKER: ""
       run: |
-        chmod +x "${{ github.action_path }}/setup_chrome.sh"
-        "${{ github.action_path }}/setup_chrome.sh"
+        chmod +x "$ACTION_PATH/setup_chrome.sh"
+        "$ACTION_PATH/setup_chrome.sh"
