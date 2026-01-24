@@ -17,9 +17,9 @@ $SUDO apt-get update && $SUDO apt-get install -y \
     libxss1 \
     fonts-liberation \
     xdg-utils \
+    $SUDO apt-get install -y libasound2t64 \
     --no-install-recommends
 
-    $SUDO apt-get install -y libasound2t64 || $SUDO apt-get install -y libasound2 || echo "⚠️ libasound não disponível, tentando prosseguir..."
 
 # 2. Configura o repositório e instala o Google Chrome (apenas se não existir)
 if ! command -v google-chrome &> /dev/null; then
