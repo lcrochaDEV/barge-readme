@@ -17,7 +17,7 @@ $SUDO apt-get update && $SUDO apt-get install -y \
     libxss1 \
     fonts-liberation \
     xdg-utils \
-    $SUDO apt-get install -y libasound2t64 \
+    libasound2t64 \
     --no-install-recommends
 
 
