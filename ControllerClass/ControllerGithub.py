@@ -21,4 +21,7 @@ class ControllerGithub:
             )
             print("✅ README.md atualizado via API com sucesso!")
         except Exception as e:
-            print(f"❌ Erro ao atualizar via API: {e}")
+            # Imprime o erro completo para sabermos se é 403 (Permissão) ou 404 (Arquivo)
+            print(f"❌ Erro ao atualizar via API: {str(e)}")
+            if hasattr(e, 'data'):
+                print(f"🔍 Detalhes da API: {e.data}")
