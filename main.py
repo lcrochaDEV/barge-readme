@@ -33,6 +33,7 @@ if __name__ == "__main__":
         if re.search(LIST_REGEX, readme_atual):
             # Substitui apenas o que está entre as tags no readme_atual
             novo_readme_completo = re.sub(LIST_REGEX, lambda _: novo_readme_completo, readme_atual)
+            print(novo_readme_completo)
             print("✅ Badges injetadas com sucesso entre os marcadores!")
         else:
             print(f"⚠️ Erro: Marcadores não encontrados no README do usuário.")
@@ -41,4 +42,4 @@ if __name__ == "__main__":
 
     # Salva no GitHub
     #github_bot.atualizar_readme(novo_readme_completo)
-    print(lambda _: novo_readme_completo)
+    print(readme_atual)
