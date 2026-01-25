@@ -10,12 +10,12 @@ if __name__ == "__main__":
     user = os.getenv("ALURA_USER", "lcrochaDEV")
 
     # Aqui capturamos as ENVs. Se não existirem, o settings.py já tratou o fallback.
-    start_m = os.getenv("START_SECTION", START_SECTION)
-    end_m = os.getenv("END_SECTION", END_SECTION)
+    start_m = os.getenv("START_SECTION") or START_SECTION
+    end_m = os.getenv("END_SECTION") or END_SECTION
     limit = os.getenv("INPUT_NUMBER_LAST_BADGES", "16")
     
     # 1. Busca os dados e gera o conteúdo formatado
-    bot = ControllerAPI(username=user, start_section=start_m, end_section=end_m, number_badges=int(limit))
+    bot = ControllerAPI(username=user, start_marker=start_m, end_marker=end_m, number_badges=int(limit))
     github_bot = ControllerGithub()
 
     try:
