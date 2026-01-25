@@ -40,5 +40,5 @@ if __name__ == "__main__":
             sys.exit(1)
 
     # Salva no GitHub
-    #github_bot.atualizar_readme(novo_readme_completo)
+    github_bot.atualizar_readme(novo_readme_completo)
     
