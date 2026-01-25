@@ -9,8 +9,8 @@ from settings import LIST_REGEX # Import local para usar o padrão definido
 class ControllerAPI:
 	def __init__(self, username=None, start_marker="", end_marker="", number_badges=16):
 		self.USER = username
-		self.START_MARKER = start_marker
-		self.END_MARKER = end_marker
+		self.START_SECTION = start_marker
+		self.END_SECTION = end_marker
 		self.number_badges = number_badges
 		
 	def varrerDadosAlura(self):
@@ -77,10 +77,10 @@ class ControllerAPI:
 		with open("README.md", "r", encoding="utf-8") as readFile:
 			readme = readFile.read()
 
-		new_badges_section = f"{self.START_MARKER}\n{badges_html}\n{self.END_MARKER}"
+		new_badges_section = f"{self.START_SECTION}\n{badges_html}\n{self.END_SECTION}"
 
 		# Regex para substituir o conteúdo entre os marcadores
-		pattern = f"{self.START_MARKER}[\\s\\S]*?{self.END_MARKER}"
+		pattern = f"{self.START_SECTION}[\\s\\S]*?{self.END_SECTION}"
 					
 		if re.search(LIST_REGEX, readme):
 			readme_atualizado = re.sub(LIST_REGEX, new_badges_section, readme)
