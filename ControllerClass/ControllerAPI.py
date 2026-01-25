@@ -53,7 +53,7 @@ class ControllerAPI:
 				html_da_src = img.get_attribute("src")
 				html_da_title = span.get_attribute("textContent").replace(":", "")
 
-				taghtml.append(f'<a href="{html_da_href}"><img src="{html_da_src}" title="{html_da_title} alt="{html_da_title}" width="60px" margin="5px"/></a>')
+				taghtml.append(f'<a href="{html_da_href}"><img src="{html_da_src}" title="{html_da_title}" alt="{html_da_title}" width="60px" margin="5px"/></a>')
 
 			# Aplica o limite de badges definido no seu main.py (self.number_badges)
 			if hasattr(self, 'number_badges') and self.number_badges > 0:
