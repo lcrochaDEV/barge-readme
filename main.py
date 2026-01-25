@@ -30,8 +30,9 @@ if __name__ == "__main__":
     if novo_readme_completo:
         bloco_final = f"{START_SECTION}\n{novo_readme_completo}\n{END_SECTION}"
 
+        print(bloco_final)
+
         if re.search(LIST_REGEX, readme_atual):
-            print(novo_readme_completo)
             # Substitui apenas o que está entre as tags no readme_atual
             novo_readme_completo = re.sub(LIST_REGEX, lambda _: novo_readme_completo, readme_atual)
             print("✅ Badges injetadas com sucesso entre os marcadores!")
@@ -41,5 +42,5 @@ if __name__ == "__main__":
             sys.exit(1)
 
     # Salva no GitHub
-    github_bot.atualizar_readme(novo_readme_completo)
+    #github_bot.atualizar_readme(novo_readme_completo)
     
