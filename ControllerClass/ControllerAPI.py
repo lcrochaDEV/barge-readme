@@ -7,10 +7,10 @@ import re
 from settings import LIST_REGEX # Import local para usar o padrão definido
 
 class ControllerAPI:
-	def __init__(self, username=None, start_marker="", end_marker="", number_badges=16):
+	def __init__(self, username=None, start_section="", end_section="", number_badges=16):
 		self.USER = username
-		self.START_SECTION = start_marker
-		self.END_SECTION = end_marker
+		self.START_SECTION = start_section
+		self.END_SECTION = end_section
 		self.number_badges = number_badges
 		
 	def varrerDadosAlura(self):

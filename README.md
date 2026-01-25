@@ -89,8 +89,8 @@
 
 
 <h1 align="center"></h1>
-<!--START_COMMENT_ALURA:badges-->
-<!--END_COMMENT_ALURA:badges-->
+<!--START_SECTION_ALURA:badges-->
+<!--END_SECTION_ALURA:badges-->
 
 ###
 
