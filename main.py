@@ -1,4 +1,3 @@
-import os
 import sys
 import re
 from ControllerClass.ControllerAPI import ControllerAPI
@@ -26,12 +25,11 @@ if __name__ == "__main__":
         if re.search(LIST_REGEX, readme_atual):
             # Substitui apenas o que está entre as tags no readme_atual
             novo_readme_completo = re.sub(LIST_REGEX, lambda _: bloco_final, readme_atual)
-            print(novo_readme_completo)
+            # Salva no GitHub
+            github_bot.atualizar_readme(novo_readme_completo)
             print("✅ Badges injetadas com sucesso entre os marcadores!")
         else:
             print(f"⚠️ Erro: Marcadores não encontrados no README do usuário.")
             print(f"Procurei por:\n{START_SECTION}\n{END_SECTION}")
             sys.exit(1)
 
-    # Salva no GitHub
-    #github_bot.atualizar_readme(novo_readme_completo)
