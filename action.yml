@@ -1,5 +1,5 @@
-name: 'Alura Badges Scraper'
-description: 'Coleta badges da Alura e atualiza o README'
+name: 'Badges Scraper'
+description: 'Coleta badges e atualiza o README'
 author: 'lcrochaDEV'
 
 inputs:

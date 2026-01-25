@@ -41,4 +41,4 @@ if __name__ == "__main__":
 
     # Salva no GitHub
     #github_bot.atualizar_readme(novo_readme_completo)
-    print(start_m)
+    print(end_m)
