@@ -15,7 +15,7 @@ if __name__ == "__main__":
     limit = os.getenv("INPUT_NUMBER_LAST_BADGES", "16")
     
     # 1. Busca os dados e gera o conteúdo formatado
-    bot = ControllerAPI(username=user, start_marker=start_m, end_marker=end_m, number_badges=int(limit))
+    bot = ControllerAPI(username=user, start_section=start_m, end_section=end_m, number_badges=int(limit))
     github_bot = ControllerGithub()
 
     try:
