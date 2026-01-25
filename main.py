@@ -10,8 +10,8 @@ if __name__ == "__main__":
     user = os.getenv("ALURA_USER", "lcrochaDEV")
 
     # Aqui capturamos as ENVs. Se não existirem, o settings.py já tratou o fallback.
-    start_m = os.getenv("START_SECTION")
-    end_m = os.getenv("END_SECTION")
+    start_m = os.getenv("START_SECTION") or START_SECTION
+    end_m = os.getenv("END_SECTION") or END_SECTION
     limit = os.getenv("INPUT_NUMBER_LAST_BADGES", "16")
     
     # 1. Busca os dados e gera o conteúdo formatado
@@ -28,9 +28,7 @@ if __name__ == "__main__":
     novo_readme_completo = bot.varrerDadosAlura()
 
     if novo_readme_completo:
-        bloco_final = f"{START_SECTION}\n{novo_readme_completo}\n{END_SECTION}"
-
-        print(bloco_final)
+        bloco_final = f"{start_m}\n{novo_readme_completo}\n{end_m}"
 
         if re.search(LIST_REGEX, readme_atual):
             # Substitui apenas o que está entre as tags no readme_atual
