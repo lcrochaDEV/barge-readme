@@ -7,7 +7,7 @@ END_SECTION = os.getenv("END_SECTION") or "<!--END_SECTION:badges-->"
 
 URL_ALURA = "https://cursos.alura.com.br"
 
-LIST_REGEX = f"{re.escape(START_SECTION)}[\\s\\S]*?{re.escape(END_SECTION)}"
+LIST_REGEX = f"{re.escape(START_SECTION)}?[\\s\\S]*?\w+{re.escape(END_SECTION)}"
 
 
 

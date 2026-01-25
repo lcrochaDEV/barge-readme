@@ -28,7 +28,7 @@ if __name__ == "__main__":
     novo_readme_completo = bot.varrerDadosAlura()
 
     if novo_readme_completo:
-        bloco_final = f"{start_m}\n{novo_readme_completo}\n{end_m}"
+        bloco_final = f"{start_m}\n\n{novo_readme_completo}\n\n{end_m}"
 
         if re.search(LIST_REGEX, readme_atual):
             # Substitui apenas o que está entre as tags no readme_atual
