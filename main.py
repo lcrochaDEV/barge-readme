@@ -3,17 +3,12 @@ import sys
 import re
 from ControllerClass.ControllerAPI import ControllerAPI
 from ControllerClass.ControllerGithub import ControllerGithub
-from settings import START_SECTION, END_SECTION, LIST_REGEX
+from settings import USER, START_SECTION, END_SECTION, LIST_REGEX, LIMITE
 
 if __name__ == "__main__":
-    # Pega o usuário das variáveis de ambiente do GitHub Actions
-    user = os.getenv("ALURA_USER", "lcrochaDEV")
-
-    # Aqui capturamos as ENVs. Se não existirem, o settings.py já tratou o fallback.
-    limit = os.getenv("INPUT_NUMBER_LAST_BADGES", "16")
-    
+   
     # 1. Busca os dados e gera o conteúdo formatado
-    bot = ControllerAPI(username=user, start_section=START_SECTION, end_section=END_SECTION, number_badges=int(limit))
+    bot = ControllerAPI(username=USER, start_section=START_SECTION, end_section=END_SECTION, number_badges=int(LIMITE))
     github_bot = ControllerGithub()
 
     try:
