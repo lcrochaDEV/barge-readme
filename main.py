@@ -10,8 +10,8 @@ if __name__ == "__main__":
     user = os.getenv("ALURA_USER", "lcrochaDEV")
 
     # Aqui capturamos as ENVs. Se não existirem, o settings.py já tratou o fallback.
-    start_m = os.getenv("START_SECTION") or START_SECTION
-    end_m = os.getenv("END_SECTION") or END_SECTION
+    start_m = os.getenv("START_SECTION")
+    end_m = os.getenv("END_SECTION")
     limit = os.getenv("INPUT_NUMBER_LAST_BADGES", "16")
     
     # 1. Busca os dados e gera o conteúdo formatado
