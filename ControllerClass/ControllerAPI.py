@@ -43,18 +43,28 @@ class ControllerAPI:
 				pass
 
 			taghtml = []
+			
 			# TAG IMG
 			linkA = driver.find_elements(By.XPATH, "(//a[@class='course-card__certificate bootcamp-text-color'])")
 			imgs = driver.find_elements(By.XPATH, "(//img[@class='course-card__icon'])")
 			spans = driver.find_elements(By.XPATH, "(//span[@class='course-card__short-title'])")
-			for linkA, img, span in  zip(linkA, imgs, spans):
-				# Captura o HTML completo da tag
-				html_da_href = linkA.get_attribute("href")
-				html_da_src = img.get_attribute("src")
-				html_da_title = span.get_attribute("textContent").replace(":", "")
+			abriu_details = False
+			for i, (linkA, img, span) in enumerate(zip(linkA, imgs, spans)):
+				if i >= self.number_badges:
+					break
+				if i == 13:
+					taghtml.append('\n<details>\n<summary><b>Ver mais certificados...</b></summary>\n')
+					abriu_details = True
+		
+					# Captura o HTML completo da tag
+					html_da_href = linkA.get_attribute("href")
+					html_da_src = img.get_attribute("src")
+					html_da_title = span.get_attribute("textContent").replace(":", "")
 
 				taghtml.append(f'<a href="{html_da_href}"><img src="{html_da_src}" title="{html_da_title}" alt="{html_da_title}" width="60px" margin="5px"/></a>')
-
+			
+			if abriu_details:
+				taghtml.append('\n</details>')
 			# Aplica o limite de badges definido no seu main.py (self.number_badges)
 			if hasattr(self, 'number_badges') and self.number_badges > 0:
 				taghtml = taghtml[:self.number_badges]
