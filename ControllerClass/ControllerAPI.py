@@ -53,7 +53,7 @@ class ControllerAPI:
 				html_da_href = linkA.get_attribute("href")
 				html_da_src = img.get_attribute("src")
 				html_da_title = span.get_attribute("textContent").replace(":", "")
-				html_p = img.get_attribute("innerText")
+				html_p = span_sub.get_attribute("innerText")
 				print(html_p)
 				taghtmlReturn = self.criateTagHTML(html_da_href, html_da_src, html_da_title, html_p)
 				taghtml.append(taghtmlReturn)
