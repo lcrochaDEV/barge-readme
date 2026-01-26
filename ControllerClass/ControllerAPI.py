@@ -47,14 +47,13 @@ class ControllerAPI:
 			linkA = driver.find_elements(By.XPATH, "(//a[@class='course-card__certificate bootcamp-text-color'])")
 			imgs = driver.find_elements(By.XPATH, "(//img[@class='course-card__icon'])")
 			spans = driver.find_elements(By.XPATH, "(//span[@class='course-card__short-title'])")
-			spans_subs = driver.find_elements(By.XPATH, "//span[@class='course-card__name']/text()[1]")
+			spans_subs = driver.find_elements(By.XPATH, "//span[@class='course-card__name']")
 			for linkA, img, span, span_sub in  zip(linkA, imgs, spans, spans_subs):
 				# Captura o HTML completo da tag
 				html_da_href = linkA.get_attribute("href")
 				html_da_src = img.get_attribute("src")
 				html_da_title = span.get_attribute("textContent").replace(":", "")
-				html_p = span_sub.get_attribute("innerText")
-				print(html_p)
+				html_p = span_sub.get_attribute("innerText").strip()
 				taghtmlReturn = self.criateTagHTML(html_da_href, html_da_src, html_da_title, html_p)
 				taghtml.append(taghtmlReturn)
 
