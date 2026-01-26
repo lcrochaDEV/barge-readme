@@ -43,28 +43,21 @@ class ControllerAPI:
 				pass
 
 			taghtml = []
-			
 			# TAG IMG
 			linkA = driver.find_elements(By.XPATH, "(//a[@class='course-card__certificate bootcamp-text-color'])")
 			imgs = driver.find_elements(By.XPATH, "(//img[@class='course-card__icon'])")
 			spans = driver.find_elements(By.XPATH, "(//span[@class='course-card__short-title'])")
-			abriu_details = False
-			for i, (linkA, img, span) in enumerate(zip(linkA, imgs, spans)):
-				if i >= self.number_badges:
-					break
-				if i == 13:
-					taghtml.append('\n<details>\n<summary><b>Ver mais certificados...</b></summary>\n')
-					abriu_details = True
-		
-					# Captura o HTML completo da tag
-					html_da_href = linkA.get_attribute("href")
-					html_da_src = img.get_attribute("src")
-					html_da_title = span.get_attribute("textContent").replace(":", "")
+			spans_subs = driver.find_elements(By.XPATH, "//span[@class='course-card__name']/text()[1]")
+			for linkA, img, span, span_sub in  zip(linkA, imgs, spans, spans_subs):
+				# Captura o HTML completo da tag
+				html_da_href = linkA.get_attribute("href")
+				html_da_src = img.get_attribute("src")
+				html_da_title = span.get_attribute("textContent").replace(":", "")
+				html_p = img.get_attribute("innerText")
+				print(html_p)
+				taghtmlReturn = self.criateTagHTML(html_da_href, html_da_src, html_da_title, html_p)
+				taghtml.append(taghtmlReturn)
 
-				taghtml.append(f'<a href="{html_da_href}"><img src="{html_da_src}" title="{html_da_title}" alt="{html_da_title}" width="60px" margin="5px"/></a>')
-			
-			if abriu_details:
-				taghtml.append('\n</details>')
 			# Aplica o limite de badges definido no seu main.py (self.number_badges)
 			if hasattr(self, 'number_badges') and self.number_badges > 0:
 				taghtml = taghtml[:self.number_badges]
@@ -101,3 +94,18 @@ class ControllerAPI:
 		else:
 			print("Erro: Marcadores não encontrados no README.md")
 			return pattern
+		
+	def criateTagHTML(self, html_da_href, html_da_src, html_da_title, html_p):
+		return f'''\
+			<div style="border-radius: 5px; width: 60px; height: 60px; margin: 5px; background-color: rgb(130, 58, 203); color: aliceblue; font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;">
+				<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&height=200&section=header" style="width: 60px; border-top-left-radius: 5px; border-top-right-radius: 5px; position: absolute; z-index:0;"/>
+				<div class="alura" style="display: flex; position: relative; z-index:1; padding: 3px 3px; position: relative; z-index:1;">
+					<a href="{html_da_href}"><img src="{html_da_src}" title="{html_da_title}" alt="{html_da_title}" style="width: 25px;"/></a>
+					<img src="https://cursos.alura.com.br/assets/images/logos/logo-alura.svg" style="width: 20px; filter: brightness(0) invert(1); margin: 0 5px; position: relative; top: 3px"/>
+				</div>
+				<img src="https://capsule-render.vercel.app/api?type=waving&color=000000&height=410&section=header" style="width: 60px; border-top-left-radius: 5px; border-top-right-radius: 5px; transform: rotate(180deg); position: absolute; z-index:0;"/>
+				<h4 style="font-size: 6px; position: relative; bottom: 16px; margin: 10px 25px;">{html_da_title}</h4>
+				<p style="font-size: 6px; text-align: left; position: relative; bottom: 20px; z-index: 1; padding-left: 3px; text-shadow: 5px 5px 0 rgba(130, 58, 203, 0.578); overflow-wrap: break-word; word-wrap: break-word; line-height: 1.1;">{html_p}</p>
+			</div>
+		'''
+		
