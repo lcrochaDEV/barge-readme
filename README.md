@@ -50,7 +50,7 @@ O fluxo de dados segue a seguinte lógica:
 ---
 
 > [!NOTE]
-> Todo esse repositório está baseado no curso ***Alura***, mas pode ser escalonado para qualquer outra formação que tenha seus certificados em uma página pública, seguindo as ideias aqui apresentadas de mapeamento de tags para scraping.
+> Todo esse repositório está baseado na plataforma de cursos ***Alura***, mas pode ser escalonado para qualquer outra formação que tenha seus certificados em uma página pública, seguindo as ideias aqui apresentadas de mapeamento de tags para scraping.
 >
 >Fico à disposição caso algum desenvolvedor queira escalar para outro nível esse simples repositório.
 
