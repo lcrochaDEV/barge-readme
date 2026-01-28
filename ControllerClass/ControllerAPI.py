@@ -58,21 +58,36 @@ class ControllerAPI:
 				tag = self.criateTagHTML(html_da_href, html_da_src, html_da_title, html_p)
 				taghtml.append(tag)
 
-			# Aplica o limite de badges definido no seu main.py (self.number_badges)
-			if hasattr(self, 'number_badges') and self.number_badges > 0:
-				taghtml = taghtml[:self.number_badges]
+			if not taghtml:
+				return ""
+			
+			LIMITE_VISIVEL = 13
+			
+			# As primeiras 13 badges
+			exibicao_direta = taghtml[:LIMITE_VISIVEL]
+			
+			# O restante (da 14ª em diante)
+			exibicao_oculta = taghtml[LIMITE_VISIVEL:]
 
-			if taghtml:
-				# Aplica o limite vindo do construtor
-				badges_limitadas = taghtml[:self.number_badges] 
-				
-				print(f"Sucesso! {len(badges_limitadas)} badges atualizadas.")
-				return "\n".join(badges_limitadas)
-				##return self.atualizar_readme("\n".join(badges_limitadas))
+			if exibicao_oculta:
+				# Criamos o bloco expansível
+				bloco_expandivel = [
+					"\n<details>",
+					f"  <summary><b>🔍 Ver mais {len(exibicao_oculta)} certificados...</b></summary>",
+					*exibicao_oculta, # O '*' desempacota a lista aqui dentro
+					"</details>\n"
+				]
+				# Unimos as badges visíveis com o bloco que abre/fecha
+				resultado_final = exibicao_direta + bloco_expandivel
+			else:
+				# Se tiver menos de 13, apenas a lista normal
+				resultado_final = exibicao_direta
 
+			print(f"Sucesso! {len(taghtml)} badges processadas.")
+			return "\n".join(resultado_final)
 		except Exception as e:
-			return '<p>Não encontrado</p>'
 			print(f"Erro ao varrer dados: {e}")
+			return '<p>Não encontrado</p>'
 		finally:
 			driver.quit()
 
