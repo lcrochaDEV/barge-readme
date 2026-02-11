@@ -98,6 +98,9 @@ class ControllerAPI:
 		#finally:
 		#	self.driver.quit()
 
+	def criateTagHTML(self, html_da_href, html_da_src, html_da_title, html_p):
+		return f'''<a href="{html_da_href}" target="_blank" rel="noopener noreferrer"><img src="{html_da_src}" title="{html_da_title}" alt="{html_da_title}" width="60px" style="margin: 5px;"/></a>'''
+
 	def varrerDadosCredly(self, USER=None):
 		try:
 			self.driver.get(f"https://www.credly.com/users/{USER}/badges#credly")
@@ -161,6 +164,9 @@ class ControllerAPI:
 		#finally:
 		#	self.driver.quit()
 		
+	def credlyTagHTML(self, html_da_href, html_da_src, html_da_title, html_p):
+		return f'''<a href="{html_da_href}" target="_blank" rel="noopener noreferrer"><img src="{html_da_src}" title="{html_da_title}" alt="{html_da_title}" width="100px" style="margin: 5px;"/></a>'''
+
 	def atualizar_readme(self, badges_html):
 			
 		with open("README.md", "r", encoding="utf-8") as readFile:
@@ -248,10 +254,4 @@ class ControllerAPI:
 	def finalizar(self):
 		"""Encerra o driver apenas quando todas as varreduras acabarem."""
 		self.driver.quit()
-
-	def criateTagHTML(self, html_da_href, html_da_src, html_da_title, html_p):
-		return f'''<a href="{html_da_href}" target="_blank" rel="noopener noreferrer"><img src="{html_da_src}" title="{html_da_title}" alt="{html_da_title}" width="60px" style="margin: 5px;"/></a>'''
-
-	def credlyTagHTML(self, html_da_href, html_da_src, html_da_title, html_p):
-		return f'''<a href="{html_da_href}" target="_blank" rel="noopener noreferrer"><img src="{html_da_src}" title="{html_da_title}" alt="{html_da_title}" width="100px" style="margin: 5px;"/></a>'''
 
