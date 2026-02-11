@@ -94,7 +94,7 @@ class ControllerAPI:
 			return "\n".join(resultado_final)
 		except Exception as e:
 			print(f"Erro ao varrer dados: {e}")
-			return '<p>Não encontrado</p>'
+			return ""
 		#finally:
 		#	self.driver.quit()
 
@@ -157,7 +157,7 @@ class ControllerAPI:
 			return "\n".join(resultado_final)
 		except Exception as e:
 			print(f"Erro ao varrer dados: {e}")
-			return '<p>Não encontrado</p>'
+			return ""
 		#finally:
 		#	self.driver.quit()
 		
@@ -240,7 +240,7 @@ class ControllerAPI:
 			return "\n".join(resultado_final)
 		except Exception as e:
 			print(f"Erro ao varrer dados: {e}")
-			return ''
+			return ""
 		#finally:
 		#	self.driver.quit()
 		
