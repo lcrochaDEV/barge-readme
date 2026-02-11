@@ -7,7 +7,7 @@ import re
 from settings import LIST_REGEX # Import local para usar o padrão definido
 
 class ControllerAPI:
-	def __init__(self, start_section="", end_section="", number_badges=16):
+	def __init__(self, number_badges=16, start_section="", end_section=""):
 		self.START_SECTION = start_section
 		self.END_SECTION = end_section
 		self.number_badges = number_badges
