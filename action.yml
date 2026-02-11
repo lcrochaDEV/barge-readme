@@ -3,9 +3,16 @@ description: 'Coleta badges e atualiza o README'
 author: 'lcrochaDEV'
 
 inputs:
-  username:
-    description: 'Seu usuário da Alura/Credly'
-    required: true
+# Identificação dos Usuários
+  username_alura:
+    description: 'Usuário da Alura'
+    required: false
+  username_credly:
+    description: 'Usuário do Credly'
+    required: false
+  username_generic:
+    description: 'Usuário para seção genérica'
+    required: false
   badge_limit:
     description: 'Limite de badges'
     required: false
@@ -23,6 +30,20 @@ inputs:
   xpath_c:
     description: 'XPATH para o título (text)'
     default: ''
+  # Marcadores Alura (usando o que seu amigo passou no with)
+  start_section_alura:
+    description: 'Tag de início Alura'
+    default: ''
+  end_section_alura:
+    description: 'Tag de fim Alura'
+    default: ''
+  # Marcadores Credly
+  start_section_credly:
+    description: 'Tag de início Credly'
+    default: ''
+  end_section_credly:
+    description: 'Tag de fim Credly'
+    default: ''
   # --- Marcadores Opcionais ---
   start_section:
     description: 'Tag de início no README'
@@ -30,6 +51,7 @@ inputs:
   end_section:
     description: 'Tag de fim no README'
     default: ''
+
 runs:
   using: 'composite'
   steps:
@@ -41,7 +63,7 @@ runs:
     - name: Instalar e Executar
       shell: bash
       env:
-        ALURA_USER: ${{ inputs.username }}
+        ALURA_USER: ${{ inputs.username_alura }}
         START_ALURA: ${{ inputs.start_section_alura }}
         END_ALURA: ${{ inputs.end_section_alura }}
 
@@ -50,11 +72,11 @@ runs:
         GITHUB_REPOSITORY: ${{ github.repository }}
         ACTION_PATH: ${{ github.action_path }}
         
-        CREDLY_USER: ${{ inputs.username }}
+        CREDLY_USER: ${{ inputs.username_credly }}
         START_CREDLY: ${{ inputs.start_section_credly }}
         END_CREDLY: ${{ inputs.end_section_credly }}
 
-        GENERIC_USER: ${{ inputs.username }}
+        GENERIC_USER: ${{ inputs.username_generic }}
         URL_GENERIC: ${{ inputs.generic_url }}
         XPATH_A: ${{ inputs.xpath_a }}
         XPATH_B: ${{ inputs.xpath_b }}
