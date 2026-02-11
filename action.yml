@@ -4,19 +4,32 @@ author: 'lcrochaDEV'
 
 inputs:
   username:
-    description: 'Seu usuário da Alura'
+    description: 'Seu usuário da Alura/Credly'
     required: true
   badge_limit:
     description: 'Limite de badges'
     required: false
     default: '16'
+# --- Novos Inputs para a seção Generic ---
+  generic_url:
+    description: 'URL do site genérico'
+    default: ''
+  xpath_a:
+    description: 'XPATH para o link (href)'
+    default: ''
+  xpath_b:
+    description: 'XPATH para a imagem (src)'
+    default: ''
+  xpath_c:
+    description: 'XPATH para o título (text)'
+    default: ''
+  # --- Marcadores Opcionais ---
   start_section:
     description: 'Tag de início no README'
     default: ''
   end_section:
     description: 'Tag de fim no README'
     default: ''
-
 runs:
   using: 'composite'
   steps:
@@ -29,14 +42,25 @@ runs:
       shell: bash
       env:
         ALURA_USER: ${{ inputs.username }}
+        START_ALURA: ${{ inputs.start_section_alura }}
+        END_ALURA: ${{ inputs.end_section_alura }}
+
         INPUT_NUMBER_LAST_BADGES: ${{ inputs.badge_limit }}
         GITHUB_TOKEN: ${{ github.token }}
         GITHUB_REPOSITORY: ${{ github.repository }}
         ACTION_PATH: ${{ github.action_path }}
-        START_SECTION: ${{ inputs.start_section }}
-        END_SECTION: ${{ inputs.end_section }}
+        
+        CREDLY_USER: ${{ inputs.username }}
         START_CREDLY: ${{ inputs.start_section_credly }}
         END_CREDLY: ${{ inputs.end_section_credly }}
+
+        GENERIC_USER: ${{ inputs.username }}
+        URL_GENERIC: ${{ inputs.generic_url }}
+        XPATH_A: ${{ inputs.xpath_a }}
+        XPATH_B: ${{ inputs.xpath_b }}
+        XPATH_C: ${{ inputs.xpath_c }}
+        START_SECTION: ${{ inputs.start_section }}
+        END_SECTION: ${{ inputs.end_section }}
       run: |
         chmod +x "$ACTION_PATH/setup_chrome.sh"
         "$ACTION_PATH/setup_chrome.sh"

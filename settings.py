@@ -6,7 +6,15 @@ START_SECTION = os.getenv("START_SECTION") or "<!--START_SECTION:badges-->"
 END_SECTION = os.getenv("END_SECTION") or "<!--END_SECTION:badges-->"
 LIST_REGEX = f"{re.escape(START_SECTION)}[\\s\\S]*?{re.escape(END_SECTION)}"
 
-USER = os.getenv("ALURA_USER") or "lcrochaDEV"
+URL = os.getenv("URL_GENERIC") or ""
+XPATH_A = os.getenv("XPATH_A") or ""
+XPATH_B = os.getenv("XPATH_B") or ""
+XPATH_C = os.getenv("XPATH_C") or ""
+
+
+ALURA_USER = os.getenv("ALURA_USER") or "lcrochaDEV"
+CREDLY_USER = os.getenv("CREDLY_USER") or "lcrochaDEV"
+GENERIC_USER = os.getenv("GENERIC_USER") or "lcrochaDEV"
 
 # --- CONFIGURAÇÕES ALURA ---
 URL_ALURA = "https://cursos.alura.com.br"

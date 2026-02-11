@@ -5,9 +5,9 @@ from ControllerClass.ControllerGithub import ControllerGithub
 import settings
 
 if __name__ == "__main__":
-   
-    # 1. Busca os dados e gera o conteúdo formatado
-    bot = ControllerAPI(username=settings.USER, number_badges=int(settings.LIMITE))
+    # Inicializa os controladores básicos
+    # Note: Certifique-se que o ControllerAPI aceite username="" se for usar apenas o genérico
+    bot = ControllerAPI(number_badges=int(settings.LIMITE))
     github_bot = ControllerGithub()
 
     try:
@@ -17,53 +17,59 @@ if __name__ == "__main__":
         print(f"❌ Erro ao acessar o README.md: {e}")
         sys.exit(1)
 
-    html_alura = bot.varrerDadosAlura()
-    html_credly = bot.varrerDadosCredly()
-    bot.finalizar() # Agora sim fechamos o navegador
-
     readme_modificado = readme_atual
     houve_alteracao = False
 
-    if html_alura and re.search(settings.LIST_REGEX_ALURA, readme_modificado):
-        # Substitui apenas o que está entre as tags no readme_modificado
-        bloco_alura = f"{settings.START_ALURA}\n{html_alura}\n{settings.END_ALURA}"
-        readme_modificado = re.sub(settings.LIST_REGEX_ALURA, lambda _: bloco_alura, readme_modificado)
-        houve_alteracao = True
-        # Salva no GitHub
-        #github_bot.atualizar_readme(html_alura)
-        print("✅ Badges injetadas com sucesso entre os marcadores!")
+    # --- 1. BLOCO ALURA ---
+    # Só executa se houver URL_ALURA E os marcadores no README
+    if settings.ALURA_USER and re.search(settings.LIST_REGEX_ALURA, readme_modificado):
+        print("🔍 Buscando dados da Alura...")
+        html_alura = bot.varrerDadosAlura(username=settings.ALURA_USER)
+        if html_alura:
+            bloco_alura = f"{settings.START_ALURA}\n{html_alura}\n{settings.END_ALURA}"
+            readme_modificado = re.sub(settings.LIST_REGEX_ALURA, lambda _: bloco_alura, readme_modificado)
+            houve_alteracao = True
+            print("✅ Seção Alura preparada!")
     else:
-        print(f"⚠️ Erro: Marcadores não encontrados no README do usuário.")
-        print(f"Procurei por:\n{settings.START_ALURA}\n{settings.END_ALURA}")
+        print("⏭️ Pulando Alura (Usuário não definido ou marcadores ausentes).")
 
-    if html_credly and re.search(settings.LIST_REGEX_CREDLY, readme_modificado):
-        # Substitui apenas o que está entre as tags no readme_modificado
-        bloco_credly = f"{settings.START_CREDLY}\n{html_credly}\n{settings.END_CREDLY}"
-        readme_modificado = re.sub(settings.LIST_REGEX_CREDLY, lambda _: bloco_credly, readme_modificado)
-        houve_alteracao = True
-        # Salva no GitHub
-        #github_bot.atualizar_readme(html_credly)
-        print("✅ Badges injetadas com sucesso entre os marcadores!")
+    # --- 2. BLOCO CREDLY ---
+    if settings.CREDLY_USER and re.search(settings.LIST_REGEX_CREDLY, readme_modificado):
+        print("🔍 Buscando dados do Credly...")
+        html_credly = bot.varrerDadosCredly(username=settings.CREDLY_USER)
+        if html_credly:
+            bloco_credly = f"{settings.START_CREDLY}\n{html_credly}\n{settings.END_CREDLY}"
+            readme_modificado = re.sub(settings.LIST_REGEX_CREDLY, lambda _: bloco_credly, readme_modificado)
+            houve_alteracao = True
+            print("✅ Seção Credly preparada!")
     else:
-        print(f"⚠️ Erro: Marcadores não encontrados no README do usuário.")
-        print(f"Procurei por:\n{settings.START_CREDLY}\n{settings.END_CREDLY}")
+        print("⏭️ Pulando Credly (Usuário não definido ou marcadores ausentes).")
 
+    # --- 3. BLOCO GENERIC ---
+    # Só executa se a URL genérica tiver sido preenchida no YAML/Settings
+    if settings.GENERIC_USER and re.search(settings.LIST_REGEX, readme_modificado):
+        print(f"🔍 Buscando dados genéricos em: {settings.URL}")
+        html_generic = bot.varrerDadosGeneric(
+            username=settings.GENERIC_USER,
+            url=settings.URL,
+            XPATH_a=settings.XPATH_A,
+            XPATH_b=settings.XPATH_B,
+            XPATH_c=settings.XPATH_C
+        )
+        if html_generic:
+            bloco_final = f"{settings.START_SECTION}\n{html_generic}\n{settings.END_SECTION}"
+            readme_modificado = re.sub(settings.LIST_REGEX, lambda _: bloco_final, readme_modificado)
+            houve_alteracao = True
+            print("✅ Seção Generic preparada!")
+    else:
+        print("⏭️ Pulando Seção Genérica (URL não definida ou marcadores ausentes).")
+
+    # Encerra o WebDriver
+    bot.finalizar()
+
+    # --- FINALIZAÇÃO ---
     if houve_alteracao and readme_modificado != readme_atual:
         github_bot.atualizar_readme(readme_modificado)
         print("🚀 README atualizado com sucesso no GitHub!")
     else:
-        print("ℹ️ Nenhuma alteração necessária no README.")
-
-'''
-    if novo_readme_completo and re.search(LIST_REGEX, readme_atual):
-        # Substitui apenas o que está entre as tags no readme_atual
-        bloco_final = f"{START_SECTION}\n{novo_readme_completo}\n{END_SECTION}"
-        novo_readme_completo = re.sub(LIST_REGEX, lambda _: bloco_final, readme_atual)
-        # Salva no GitHub
-        github_bot.atualizar_readme(novo_readme_completo)
-        print("✅ Badges injetadas com sucesso entre os marcadores!")
-    else:
-        print(f"⚠️ Erro: Marcadores não encontrados no README do usuário.")
-        print(f"Procurei por:\n{START_SECTION}\n{END_SECTION}")
-        sys.exit(1)
-'''
+        print("ℹ️ Nenhuma alteração realizada no README.")
