@@ -94,16 +94,9 @@ class ControllerAPI:
 			return "\n".join(resultado_final)
 		except Exception as e:
 			print(f"Erro ao varrer dados: {e}")
-			return ""
+			return '<p>Não encontrado</p>'
 		#finally:
 		#	self.driver.quit()
-
-	def finalizar(self):
-		"""Encerra o driver apenas quando todas as varreduras acabarem."""
-		self.driver.quit()
-
-	def criateTagHTML(self, html_da_href, html_da_src, html_da_title, html_p):
-		return f'''<a href="{html_da_href}" target="_blank" rel="noopener noreferrer"><img src="{html_da_src}" title="{html_da_title}" alt="{html_da_title}" width="60px" style="margin: 5px;"/></a>'''
 
 	def varrerDadosCredly(self, USER=None):
 		try:
@@ -122,17 +115,17 @@ class ControllerAPI:
 
 			taghtml = []
 			# TAG IMG
-			linkA = self.driver.find_elements(By.XPATH, "(//div[@data-testid='desktop-badge-card']/@href)")
+			linkA = self.driver.find_elements(By.XPATH, "(//div[@data-testid='desktop-badge-card'])")
 			imgs = self.driver.find_elements(By.XPATH, "(//div[@data-testid='desktop-badge-card']//img)")
 			spans = self.driver.find_elements(By.XPATH, "(//span[@data-testid='Typography'])")
 			for linkA, img, span in  zip(linkA, imgs, spans):
 				# Captura o HTML completo da tag
 				html_da_href = linkA.get_attribute("href")
 				html_da_src = img.get_attribute("src")
-				html_da_title = span.get_attribute("textContent")
+				html_da_title = span.get_attribute("textContent").replace(":", "")
 				html_p = img.get_attribute("innerText").strip()
 
-				tag = self.credlyTagHTML(html_da_href, html_da_src, html_da_title, html_p)
+				tag = self.criateTagHTML(html_da_href, html_da_src, html_da_title, html_p)
 				taghtml.append(tag)
 
 			if not taghtml:
@@ -164,13 +157,10 @@ class ControllerAPI:
 			return "\n".join(resultado_final)
 		except Exception as e:
 			print(f"Erro ao varrer dados: {e}")
-			return ""
+			return '<p>Não encontrado</p>'
 		#finally:
 		#	self.driver.quit()
 		
-	def credlyTagHTML(self, html_da_href, html_da_src, html_da_title, html_p):
-		return f'''<a href="{html_da_href}" target="_blank" rel="noopener noreferrer"><img src="{html_da_src}" title="{html_da_title}" alt="{html_da_title}" width="100px" style="margin: 5px;"/></a>'''
-
 	def atualizar_readme(self, badges_html):
 			
 		with open("README.md", "r", encoding="utf-8") as readFile:
@@ -250,8 +240,16 @@ class ControllerAPI:
 			return "\n".join(resultado_final)
 		except Exception as e:
 			print(f"Erro ao varrer dados: {e}")
-			return ""
+			return ''
 		#finally:
 		#	self.driver.quit()
 		
 
+	def finalizar(self):
+		"""Encerra o driver apenas quando todas as varreduras acabarem."""
+		self.driver.quit()
+
+	def criateTagHTML(self, html_da_href, html_da_src, html_da_title, html_p):
+		return f'''<a href="{html_da_href}"><img src="{html_da_src}" title="{html_da_title}" alt="{html_da_title}" width="60px" style="margin: 5px;"/></a>'''
+
+	
