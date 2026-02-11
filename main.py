@@ -24,7 +24,7 @@ if __name__ == "__main__":
     # Só executa se houver URL_ALURA E os marcadores no README
     if settings.ALURA_USER and re.search(settings.LIST_REGEX_ALURA, readme_modificado):
         print("🔍 Buscando dados da Alura...")
-        html_alura = bot.varrerDadosAlura(username=settings.ALURA_USER)
+        html_alura = bot.varrerDadosAlura(USER=settings.ALURA_USER)
         if html_alura:
             bloco_alura = f"{settings.START_ALURA}\n{html_alura}\n{settings.END_ALURA}"
             readme_modificado = re.sub(settings.LIST_REGEX_ALURA, lambda _: bloco_alura, readme_modificado)
@@ -36,7 +36,7 @@ if __name__ == "__main__":
     # --- 2. BLOCO CREDLY ---
     if settings.CREDLY_USER and re.search(settings.LIST_REGEX_CREDLY, readme_modificado):
         print("🔍 Buscando dados do Credly...")
-        html_credly = bot.varrerDadosCredly(username=settings.CREDLY_USER)
+        html_credly = bot.varrerDadosCredly(USER=settings.CREDLY_USER)
         if html_credly:
             bloco_credly = f"{settings.START_CREDLY}\n{html_credly}\n{settings.END_CREDLY}"
             readme_modificado = re.sub(settings.LIST_REGEX_CREDLY, lambda _: bloco_credly, readme_modificado)
@@ -50,7 +50,7 @@ if __name__ == "__main__":
     if settings.GENERIC_USER and re.search(settings.LIST_REGEX, readme_modificado):
         print(f"🔍 Buscando dados genéricos em: {settings.URL}")
         html_generic = bot.varrerDadosGeneric(
-            username=settings.GENERIC_USER,
+            USER=settings.GENERIC_USER,
             url=settings.URL,
             XPATH_a=settings.XPATH_A,
             XPATH_b=settings.XPATH_B,
