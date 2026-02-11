@@ -35,6 +35,8 @@ runs:
         ACTION_PATH: ${{ github.action_path }}
         START_SECTION: ${{ inputs.start_section }}
         END_SECTION: ${{ inputs.end_section }}
+        START_CREDLY: ${{ inputs.start_section_credly }}
+        END_CREDLY: ${{ inputs.end_section_credly }}
       run: |
         chmod +x "$ACTION_PATH/setup_chrome.sh"
         "$ACTION_PATH/setup_chrome.sh"
