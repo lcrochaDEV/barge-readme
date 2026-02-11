@@ -115,7 +115,7 @@ class ControllerAPI:
 
 			taghtml = []
 			# TAG IMG
-			linkA = self.driver.find_elements(By.XPATH, "(//div[@data-testid='desktop-badge-card'])")
+			linkA = self.driver.find_elements(By.XPATH, "(//div[@data-testid='desktop-badge-card']/@href)")
 			imgs = self.driver.find_elements(By.XPATH, "(//div[@data-testid='desktop-badge-card']//img)")
 			spans = self.driver.find_elements(By.XPATH, "(//span[@data-testid='Typography'])")
 			for linkA, img, span in  zip(linkA, imgs, spans):
@@ -125,7 +125,7 @@ class ControllerAPI:
 				html_da_title = span.get_attribute("textContent").replace(":", "")
 				html_p = img.get_attribute("innerText").strip()
 
-				tag = self.criateTagHTML(html_da_href, html_da_src, html_da_title, html_p)
+				tag = self.credlyTagHTML(html_da_href, html_da_src, html_da_title, html_p)
 				taghtml.append(tag)
 
 			if not taghtml:
@@ -252,4 +252,5 @@ class ControllerAPI:
 	def criateTagHTML(self, html_da_href, html_da_src, html_da_title, html_p):
 		return f'''<a href="{html_da_href}"><img src="{html_da_src}" title="{html_da_title}" alt="{html_da_title}" width="60px" style="margin: 5px;"/></a>'''
 
-	
+	def credlyTagHTML(self, html_da_href, html_da_src, html_da_title, html_p):
+		return f'''<a href="{html_da_href}" target="_blank" rel="noopener noreferrer"><img src="{html_da_src}" title="{html_da_title}" alt="{html_da_title}" width="100px" style="margin: 5px;"/></a>'''
