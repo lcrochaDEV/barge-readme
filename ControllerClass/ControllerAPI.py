@@ -125,7 +125,7 @@ class ControllerAPI:
 				html_da_title = span.get_attribute("textContent").replace(":", "")
 				html_p = img.get_attribute("innerText").strip()
 
-				tag = self.criateTagHTML(html_da_href, html_da_src, html_da_title, html_p)
+				tag = self.credlyTagHTML(html_da_href, html_da_src, html_da_title, html_p)
 				taghtml.append(tag)
 
 			if not taghtml:
@@ -181,13 +181,6 @@ class ControllerAPI:
 			print("Erro: Marcadores não encontrados no README.md")
 			return pattern
 		
-	def criateTagHTML(self, html_da_href, html_da_src, html_da_title, html_p):
-		return f'''<a href="{html_da_href}"><img src="{html_da_src}" title="{html_da_title}" alt="{html_da_title}" width="60px" style="margin: 5px;"/></a>'''
-
-	def finalizar(self):
-		"""Encerra o driver apenas quando todas as varreduras acabarem."""
-		self.driver.quit()
-
 	def varrerDadosGeneric(self, url=None, XPATH_a=None, XPATH_b=None, XPATH_c=None):
 		try:
 			self.driver.get(url)
@@ -251,3 +244,14 @@ class ControllerAPI:
 		#finally:
 		#	self.driver.quit()
 		
+
+	def finalizar(self):
+		"""Encerra o driver apenas quando todas as varreduras acabarem."""
+		self.driver.quit()
+
+	def criateTagHTML(self, html_da_href, html_da_src, html_da_title, html_p):
+		return f'''<a href="{html_da_href}" target="_blank" rel="noopener noreferrer"><img src="{html_da_src}" title="{html_da_title}" alt="{html_da_title}" width="60px" style="margin: 5px;"/></a>'''
+
+	def credlyTagHTML(self, html_da_href, html_da_src, html_da_title, html_p):
+		return f'''<a href="{html_da_href}" target="_blank" rel="noopener noreferrer"><img src="{html_da_src}" title="{html_da_title}" alt="{html_da_title}" width="100px" style="margin: 5px;"/></a>'''
+
