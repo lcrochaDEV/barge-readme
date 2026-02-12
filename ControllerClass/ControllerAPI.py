@@ -100,7 +100,7 @@ class ControllerAPI:
 			self.driver.implicitly_wait(5) 
 			#BARRA LATERAL AUTO SCROLL
 			scroll = self.driver.execute_script('return document.body.scrollHeight')
-			for contador in range(20):
+			for _ in range(20):
 				self.driver.execute_script('window.scrollBy(0, document.body.scrollHeight);')
 				time.sleep(2)
 				new_scroll = self.driver.execute_script('return document.body.scrollHeight')
@@ -112,7 +112,7 @@ class ControllerAPI:
 			# TAG IMG
 			linkA = self.driver.find_elements(By.XPATH, "(//div[@data-testid='desktop-badge-card'])")
 			imgs = self.driver.find_elements(By.XPATH, "(//div[@data-testid='desktop-badge-card']//img)")
-			spans = self.driver.find_elements(By.XPATH, "(//span[@data-testid='Typography'])[1]")
+			spans = self.driver.find_elements(By.XPATH, "(//span[@class='Typographystyles__Container-fredly__sc-1jldzrm-0 mWuVU EarnedBadgeCardstyles__BadgeNameText-fredly__sc-gsqjwh-7 jcZXPk'])")
 			for linkA, img, span in  zip(linkA, imgs, spans):
 				# Captura o HTML completo da tag
 				html_da_href = linkA.get_attribute("href")
