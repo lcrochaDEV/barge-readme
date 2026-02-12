@@ -40,7 +40,7 @@ class ControllerAPI:
 			# Clicar no 'Ver mais' se existir
 			try:
 				self.driver.find_element(By.XPATH, "(//button[@class='seeMoreButton'])[2]").click()
-				time.sleep(1)
+				time.sleep(2)
 			except:
 				pass
 
