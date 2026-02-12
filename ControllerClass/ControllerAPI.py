@@ -12,17 +12,18 @@ class ControllerAPI:
 		self.END_SECTION = end_section
 		self.number_badges = number_badges
 
+		# Configuração necessária para rodar dentro do GitHub Actions (sem interface gráfica)
+		self.options = Options()
+		self.options.add_argument("--headless=new")
+		self.options.add_argument("--no-sandbox")
+		self.options.add_argument("--disable-dev-shm-usage")
+		self.options.add_argument("--window-size=1920,1080")
+		
 		self.driver = webdriver.Chrome(options=self.options)
 		
 	def varrerDadosAlura(self, USER=None):
 		try:
-			# Configuração necessária para rodar dentro do GitHub Actions (sem interface gráfica)
-			options = Options()
-			options.add_argument("--headless=new")
-			options.add_argument("--no-sandbox")
-			options.add_argument("--disable-dev-shm-usage")
-			
-			#driver = webdriver.Chrome(options=options)
+
 			self.driver.get(f"https://cursos.alura.com.br/user/{USER}")
 			self.driver.maximize_window() #ABRE COM A JENALA FULL
 			self.driver.implicitly_wait(5) 
@@ -94,12 +95,6 @@ class ControllerAPI:
 
 	def varrerDadosCredly(self, USER=None):
 		try:
-			# Configuração necessária para rodar dentro do GitHub Actions (sem interface gráfica)
-			options = Options()
-			options.add_argument("--headless=new")
-			options.add_argument("--no-sandbox")
-			options.add_argument("--disable-dev-shm-usage")
-
 			self.driver.get(f"https://www.credly.com/users/{USER}/badges#credly")
 			self.driver.maximize_window() #ABRE COM A JENALA FULL
 			self.driver.implicitly_wait(5) 
@@ -182,12 +177,6 @@ class ControllerAPI:
 			return pattern
 		
 	def varrerDadosGeneric(self, url=None, XPATH_a=None, XPATH_b=None, XPATH_c=None):
-		# Configuração necessária para rodar dentro do GitHub Actions (sem interface gráfica)
-		options = Options()
-		options.add_argument("--headless=new")
-		options.add_argument("--no-sandbox")
-		options.add_argument("--disable-dev-shm-usage")
-
 		try:
 			self.driver.get(url)
 			self.driver.maximize_window() #ABRE COM A JENALA FULL
