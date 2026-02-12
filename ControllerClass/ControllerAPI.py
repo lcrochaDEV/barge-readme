@@ -23,27 +23,30 @@ class ControllerAPI:
 		
 	def varrerDadosAlura(self, USER=None):
 		try:
-
 			self.driver.get(f"https://cursos.alura.com.br/user/{USER}")
-			self.driver.maximize_window() #ABRE COM A JENALA FULL
-			self.driver.implicitly_wait(5) 
-			#BARRA LATERAL AUTO SCROLL
-			scroll = self.driver.execute_script('return document.body.scrollHeight')
-			for _ in range(20):
-				self.driver.execute_script('window.scrollBy(0, document.body.scrollHeight);')
-				time.sleep(2)
-				new_scroll = self.driver.execute_script('return document.body.scrollHeight')
-				if new_scroll == scroll:
+			self.driver.maximize_window()
+			time.sleep(3) 
+
+			# --- LOOP MESTRE: Clica em todos os 'Ver mais' até abrir tudo ---
+			while True:
+				# Busca todos os botões 'Ver mais' que estão visíveis na tela
+				botoes = self.driver.find_elements(By.CLASS_NAME, 'seeMoreButton')
+				clicou_em_algum = False
+				
+				for btn in botoes:
+					if btn.is_displayed():
+						# Usa JavaScript para clicar (mais garantido que o .click() normal)
+						self.driver.execute_script("arguments[0].click();", btn)
+						clicou_em_algum = True
+						time.sleep(1) # Pausa curta para a Alura renderizar os novos itens
+				
+				# Se passou por todos os botões e nenhum estava disponível, a lista acabou
+				if not clicou_em_algum:
 					break
-				scroll = new_scroll
-
-			# Clicar no 'Ver mais' se existir
-			try:
-				self.driver.find_element(By.XPATH, "(//button[@class='seeMoreButton'])[2]").click()
-				time.sleep(5)
-			except:
-				pass
-
+				
+				# Rola para o fim após clicar para forçar o carregamento de novos botões
+				self.driver.execute_script('window.scrollTo(0, document.body.scrollHeight);')
+				time.sleep(1)
 			taghtml = []
 			# TAG IMG
 			linkA = self.driver.find_elements(By.XPATH, "(//a[@class='course-card__certificate bootcamp-text-color'])")
