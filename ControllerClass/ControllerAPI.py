@@ -29,7 +29,7 @@ class ControllerAPI:
 			self.driver.implicitly_wait(5) 
 			#BARRA LATERAL AUTO SCROLL
 			scroll = self.driver.execute_script('return document.body.scrollHeight')
-			for contador in range(20):
+			for _ in range(20):
 				self.driver.execute_script('window.scrollBy(0, document.body.scrollHeight);')
 				time.sleep(2)
 				new_scroll = self.driver.execute_script('return document.body.scrollHeight')
@@ -40,7 +40,7 @@ class ControllerAPI:
 			# Clicar no 'Ver mais' se existir
 			try:
 				self.driver.find_element(By.XPATH, "(//button[@class='seeMoreButton'])[2]").click()
-				time.sleep(2)
+				time.sleep(3)
 			except:
 				pass
 
@@ -183,7 +183,7 @@ class ControllerAPI:
 			self.driver.implicitly_wait(5) 
 			#BARRA LATERAL AUTO SCROLL
 			scroll = self.driver.execute_script('return document.body.scrollHeight')
-			for contador in range(20):
+			for _ in range(20):
 				self.driver.execute_script('window.scrollBy(0, document.body.scrollHeight);')
 				time.sleep(2)
 				new_scroll = self.driver.execute_script('return document.body.scrollHeight')
