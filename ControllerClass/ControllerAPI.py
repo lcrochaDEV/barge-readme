@@ -24,47 +24,47 @@ class ControllerAPI:
 	def varrerDadosAlura(self, USER=None):
 		try:
 			self.driver.get(f"https://cursos.alura.com.br/user/{USER}")
-			self.driver.maximize_window()
-			time.sleep(3) 
-
-			# --- LOOP MESTRE: Clica em todos os 'Ver mais' até abrir tudo ---
-			while True:
-				# Busca todos os botões 'Ver mais' que estão visíveis na tela
-				botoes = self.driver.find_elements(By.CLASS_NAME, 'seeMoreButton')
-				clicou_em_algum = False
-				
-				for btn in botoes:
-					if btn.is_displayed():
-						# Usa JavaScript para clicar (mais garantido que o .click() normal)
-						self.driver.execute_script("arguments[0].click();", btn)
-						clicou_em_algum = True
-						time.sleep(1) # Pausa curta para a Alura renderizar os novos itens
-				
-				# Se passou por todos os botões e nenhum estava disponível, a lista acabou
-				if not clicou_em_algum:
+			self.driver.maximize_window() #ABRE COM A JENALA FULL
+			self.driver.implicitly_wait(5) 
+			#BARRA LATERAL AUTO SCROLL
+			scroll = self.driver.execute_script('return document.body.scrollHeight')
+			for _ in range(20):
+				self.driver.execute_script('window.scrollBy(0, document.body.scrollHeight);')
+				time.sleep(2)
+				new_scroll = self.driver.execute_script('return document.body.scrollHeight')
+				if new_scroll == scroll:
 					break
-				
-				# Rola para o fim após clicar para forçar o carregamento de novos botões
-				self.driver.execute_script('window.scrollTo(0, document.body.scrollHeight);')
-				time.sleep(1)
+				scroll = new_scroll
+
+			# Clicar no 'Ver mais' se existir
+			try:
+				self.driver.find_element(By.XPATH, "(//button[@class='seeMoreButton'])[2]").click()
+				time.sleep(2)
+			except:
+				pass
+
 			taghtml = []
 			# TAG IMG
-			linkA = self.driver.find_elements(By.XPATH, "(//a[@class='course-card__certificate bootcamp-text-color'])")
-			imgs = self.driver.find_elements(By.XPATH, "(//img[@class='course-card__icon'])")
-			spans = self.driver.find_elements(By.XPATH, "(//span[@class='course-card__short-title'])")
-			spans_subs = self.driver.find_elements(By.XPATH, "//span[@class='course-card__name']")
-			for linkA, img, span, span_sub in  zip(linkA, imgs, spans, spans_subs):
-				# Captura o HTML completo da tag
-				html_da_href = linkA.get_attribute("href")
-				html_da_src = img.get_attribute("src")
-				html_da_title = span.get_attribute("textContent").replace(":", "")
-				html_p = img.get_attribute("innerText").strip()
+			# XPath que pega tanto certificados de cursos quanto de bootcamps
+			cards = self.driver.find_elements(By.XPATH, "//a[contains(@class, 'course-card__certificate')]")
+			
+			for card in cards:
+				try:
+					img = card.find_element(By.CLASS_NAME, 'course-card__icon')
+					# Tenta pegar o título curto, se não houver, pega o nome completo
+					try:
+						title = card.find_element(By.CLASS_NAME, 'course-card__short-title').get_attribute("textContent")
+					except:
+						title = card.find_element(By.CLASS_NAME, 'course-card__name').get_attribute("textContent")
+					
+					html_da_href = card.get_attribute("href")
+					html_da_src = img.get_attribute("src")
+					html_da_title = title.replace(":", "").strip()
 
-				tag = self.criateTagHTML(html_da_href, html_da_src, html_da_title, html_p)
-				taghtml.append(tag)
-
-			if not taghtml:
-				return ""
+					tag = self.criateTagHTML(html_da_href, html_da_src, html_da_title, "")
+					taghtml.append(tag)
+				except:
+					continue
 			
 			LIMITE_VISIVEL = 13
 			
