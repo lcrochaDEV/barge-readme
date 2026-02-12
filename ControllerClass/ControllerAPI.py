@@ -110,18 +110,26 @@ class ControllerAPI:
 
 			taghtml = []
 			# TAG IMG
-			linkA = self.driver.find_elements(By.XPATH, "(//div[@data-testid='desktop-badge-card'])")
-			imgs = self.driver.find_elements(By.XPATH, "(//div[@data-testid='desktop-badge-card']//img)")
-			spans = self.driver.find_elements(By.XPATH, "(//span[@data-testid='Typography'])")
-			for linkA, img, span in  zip(linkA, imgs, spans):
-				# Captura o HTML completo da tag
-				html_da_href = linkA.get_attribute("href")
-				html_da_src = img.get_attribute("src")
-				html_da_title = span.get_attribute("textContent").replace(":", "")
-				html_p = img.get_attribute("innerText").strip()
 
-				tag = self.credlyTagHTML(html_da_href, html_da_src, html_da_title, html_p)
-				taghtml.append(tag)
+			cards = self.driver.find_elements(By.XPATH, "//div[@data-testid='desktop-badge-card']")            
+			for card in cards:
+				try:
+					# 2. Buscamos os dados DENTRO de cada card específico
+					# Isso evita o erro do zip e garante que pegamos o link correto
+					link_element = card.find_element(By.TAG_NAME, "a")
+					img_element = card.find_element(By.TAG_NAME, "img")
+					
+					html_da_href = link_element.get_attribute("href")
+					html_da_src = img_element.get_attribute("src")
+					
+					# O título geralmente está no alt da imagem ou em um span interno
+					html_da_title = img_element.get_attribute("alt") or "Certificado Credly"
+					html_da_title = html_da_title.replace(":", "")
+
+					tag = self.credlyTagHTML(html_da_href, html_da_src, html_da_title, "")
+					taghtml.append(tag)
+				except Exception:
+					continue #
 
 			if not taghtml:
 				return ""
