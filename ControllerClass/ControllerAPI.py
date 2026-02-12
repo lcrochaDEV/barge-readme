@@ -45,27 +45,24 @@ class ControllerAPI:
 
 			taghtml = []
 			# TAG IMG
-			# XPath que pega tanto certificados de cursos quanto de bootcamps
-			cards = self.driver.find_elements(By.XPATH, "//a[contains(@class, 'course-card__certificate')]")
-			
-			for card in cards:
-				try:
-					img = card.find_element(By.CLASS_NAME, 'course-card__icon')
-					# Tenta pegar o título curto, se não houver, pega o nome completo
-					try:
-						title = card.find_element(By.CLASS_NAME, 'course-card__short-title').get_attribute("textContent")
-					except:
-						title = card.find_element(By.CLASS_NAME, 'course-card__name').get_attribute("textContent")
-					
-					html_da_href = card.get_attribute("href")
-					html_da_src = img.get_attribute("src")
-					html_da_title = title.replace(":", "").strip()
+			linkA = self.driver.find_elements(By.XPATH, "(//a[@class='course-card__certificate bootcamp-text-color'])")
+			imgs = self.driver.find_elements(By.XPATH, "(//img[@class='course-card__icon'])")
+			spans = self.driver.find_elements(By.XPATH, "(//span[@class='course-card__short-title'])")
+			spans_subs = self.driver.find_elements(By.XPATH, "//span[@class='course-card__name']")
+			for linkA, img, span, span_sub in  zip(linkA, imgs, spans, spans_subs):
+				# Captura o HTML completo da tag
+				html_da_href = linkA.get_attribute("href")
+				html_da_src = img.get_attribute("src")
+				html_da_title = span.get_attribute("textContent").replace(":", "")
+				html_p = img.get_attribute("innerText").strip()
 
-					tag = self.criateTagHTML(html_da_href, html_da_src, html_da_title, "")
-					taghtml.append(tag)
-				except:
-					continue
+				tag = self.criateTagHTML(html_da_href, html_da_src, html_da_title, html_p)
+				taghtml.append(tag)
+
+			if not taghtml:
+				return ""
 			
+			print(len(taghtml))
 			LIMITE_VISIVEL = 13
 			
 			# As primeiras 13 badges
