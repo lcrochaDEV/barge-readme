@@ -110,7 +110,7 @@ class ControllerAPI:
 
 			taghtml = []
 			# TAG IMG
-			linkA = self.driver.find_elements(By.XPATH, "(//div[@data-testid='desktop-badge-card']/@href)")
+			linkA = self.driver.find_elements(By.XPATH, "(//div[@data-testid='desktop-badge-card']//@href)")
 			imgs = self.driver.find_elements(By.XPATH, "(//div[@data-testid='desktop-badge-card']//img)")
 			spans = self.driver.find_elements(By.XPATH, "(//span[@data-testid='Typography'])")
 			for linkA, img, span in  zip(linkA, imgs, spans):
