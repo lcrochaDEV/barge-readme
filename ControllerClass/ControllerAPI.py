@@ -61,8 +61,7 @@ class ControllerAPI:
 
 			if not taghtml:
 				return ""
-			
-			print(len(taghtml))
+
 			LIMITE_VISIVEL = 13
 			
 			# As primeiras 13 badges
@@ -248,4 +247,4 @@ class ControllerAPI:
 		return f'''<a href="{html_da_href}"><img src="{html_da_src}" title="{html_da_title}" alt="{html_da_title}" width="60px" style="margin: 5px;"/></a>'''
 
 	def credlyTagHTML(self, html_da_href, html_da_src, html_da_title, html_p):
-		return f'''<a href="{html_da_href}" target="_blank" rel="noopener noreferrer"><img src="{html_da_src}" title="{html_da_title}" alt="{html_da_title}" width="100px" style="margin: 5px;"/></a>'''
+		return f'''<a href="https://www.credly.com{html_da_href}" target="_blank" rel="noopener noreferrer"><img src="{html_da_src}" title="{html_da_title}" alt="{html_da_title}" width="100px" style="margin: 5px;"/></a>'''
