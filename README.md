@@ -1,9 +1,3 @@
-Entendido. Ajustei o README para focar na estrutura atualizada e na robustez técnica, removendo as menções diretas à resolução do erro específico e focando na capacidade multi-plataforma e no fluxo de dados.
-
-Aqui está a versão atualizada:
-
----
-
 # 🎓 Badges Updater
 
 Este projeto automatiza a atualização de certificados de **Cursos e Formações** diretamente no seu perfil do GitHub. Ele utiliza Web Scraping para coletar suas conquistas recentes e as injeta de forma organizada entre marcadores específicos no seu `README.md`.
